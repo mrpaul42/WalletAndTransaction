@@ -9,10 +9,6 @@ const WalletSchema = new Schema({
   name: {
     type: String,
   },
-  created_at: {
-    type: Number,
-    default: Date.now(),
-  },
 });
 
 WalletSchema.set("timestamps", true);
