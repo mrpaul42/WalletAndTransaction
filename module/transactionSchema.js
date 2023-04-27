@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-// { amount, description }
 
 const TransactionSchema = new Schema({
   amount: {
@@ -9,6 +8,7 @@ const TransactionSchema = new Schema({
   },
   description: {
     type: String,
+    required: true,
   },
   walletId: {
     type: String,
@@ -17,6 +17,7 @@ const TransactionSchema = new Schema({
   transactionType: {
     type: String,
     enum: ["Credit", "Debit"],
+    default: "Credit",
   },
 });
 

@@ -61,14 +61,14 @@ describe("Wallet GET Api", function () {
   it("should fetched wallet data", function (done) {
     chai
       .request(app)
-      .get("/wallet/644a565da81412d7783b3af7")
+      .get("/wallet/644aaa8702819a26fcafdacf")
       .end((err, response) => {
         expect(response.status).to.be.equal(200);
         expect(JSON.parse(response.text).status).to.be.equal("Success");
         expect(JSON.parse(response.text).message).to.be.equal(
           "Fetched Wallet data successfully."
         );
-        expect(JSON.parse(response.text).data.balance).to.be.equal(50);
+        expect(JSON.parse(response.text).data.balance).to.be.equal(20);
         expect(JSON.parse(response.text).data.name).to.be.equal("rohit");
         done();
       });
