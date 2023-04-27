@@ -63,3 +63,28 @@ exports.createTransaction = async (req, res, next) => {
     res.status(400).json({ status: "failure", message: err.message });
   }
 };
+
+exports.getTransaction = async (req, res, next) => {
+  try {
+    let { walletId, skip = 1, limit = 10 } = req.query;
+    skip = limit * (skip - 1);
+    if (!checkRequiredFields(res, walletId)) return;
+    const transactionData = await transactionSchema.aggregate([
+      { $match: { walletId: walletId } },
+      {
+        $facet: {
+          metadata: [{ $count: "total" }],
+          data: [{ $skip: Number(skip) }, { $limit: Number(limit) }],
+        },
+      },
+    ]);
+    res.status(200).json({
+      status: "Success",
+      message: "Fetched transaction details successful",
+      data: transactionData,
+    });
+  } catch (err) {
+    console.log("catch exception in create Transaction", err);
+    res.status(400).json({ status: "failure", message: err.message });
+  }
+};

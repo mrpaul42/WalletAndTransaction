@@ -89,8 +89,35 @@ describe("Create transaction Api", function () {
         done();
       });
   });
+});
 
-  //   it("should fetch the transaction data", function (done) {
-  //     chai.request(app).get("/transaction/644a91863e184bce9df8a9eb");
-  //   });
+describe("Fetch transaction Api", function () {
+  it("should throw Required fields are missing error", function (done) {
+    chai
+      .request(app)
+      .get("/transaction?skip=1&limit=10")
+      .end((err, response) => {
+        expect(response.status).to.be.equal(400);
+        expect(JSON.parse(response.text).status).to.be.equal("failure");
+        expect(JSON.parse(response.text).message).to.be.equal(
+          "Required fields are missing."
+        );
+        done();
+      });
+  });
+
+  it("should fetch transaction", function (done) {
+    chai
+      .request(app)
+      .get("/transaction?walletId=644a565da81412d7783b3af7&skip=3&limit=10")
+      .end((err, response) => {
+        expect(response.status).to.be.equal(200);
+        expect(JSON.parse(response.text).status).to.be.equal("Success");
+        expect(JSON.parse(response.text).message).to.be.equal(
+          "Fetched transaction details successful"
+        );
+        expect(JSON.parse(response.text).data[0].data.length).to.be.equal(10);
+        done();
+      });
+  });
 });
